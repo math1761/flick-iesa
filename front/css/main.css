@@ -6,9 +6,18 @@
 
 
 
+body {
+    margin-top: 50px;
+    padding: 0;
+    margin: 0;
+}
 
-
-
+input {
+    border: 1px solid black;
+    padding: 30px;
+    display: block;
+    margin: 0 auto;
+}
 
 
 

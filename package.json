@@ -18,6 +18,9 @@
   "homepage": "https://github.com/math1761/flick-iesa#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "flickrapi": "^0.6.0",
+    "mongodb": "^3.0.0-rc0",
+    "node-flickr": "^1.0.0"
   }
 }
