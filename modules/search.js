@@ -8,7 +8,7 @@ flickr = new Flickr({
 module.exports = {
 
     searchFlickr: function(tag, result) {
-        console.log('test')
+
         flickr.get('photos.search', {"tags": tag}, (err, res) => {
             if (err) {
                 console.log(err)
