@@ -2,30 +2,46 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const search = require('./modules/search');
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
+const databaseConfig = require('./config');
+const path = require('path');
+const { body,validationResult } = require('express-validator/check');
+const { sanitizeBody } = require('express-validator/filter');
 
-const url = 'mongodb://localhost:27017';
-const dbName = 'flickr-iesa'
 
-// Use connect method to connect to the server
-MongoClient.connect(url, function(err, client) {
-    assert.equal(null, err);
-    console.log("Connected successfully to server");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static(__dirname));
+databaseConfig.connectDatabase();
 
-    const db = client.db(dbName);
-
-    client.close();
+app.get('/', function (req, res) {
+    body('tag', 'Recherche obligatoire').isLength({ min: 1 }).trim();
+    const errors = validationResult(req);
+    res.sendFile(path.join(__dirname, './index.html'));
 });
 
+app.post('/search', (req, res, next) => {
+    res.sendFile(path.join(__dirname, './search.html'));
+    const errors = validationResult(req);
 
-app.use(express.static('front'));
+    const cache = new Images({
+        tag: req.body.tag
+    });
 
-
-app.get('/', (req, res) => {
-    /*console.log('test')
-    search.searchFlickr('dogs', res);*/
-    res.send('./front/index.html')
+    if (!body.isEmpty()) {
+        search.searchFlickr(req.body.tag, res);
+    }
+    else {
+        cache.findOne({ 'tag': req.body.tag })
+            .exec(function (err, tag_found) {
+                if (err) { return next(err); }
+                if (tag_found) {
+                    for (i = 0; i < tag_found.length; i++) {
+                        res.write("<img src='" + req.body.tag + "'/>")
+                        res.end();
+                    }
+                }
+            })
+    }
 });
 
 app.listen(3000, () => console.log('Listening on port 3000!'));

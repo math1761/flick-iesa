@@ -1,8 +1,17 @@
-const config = {};
+const url = 'mongodb://localhost:27017';
+const dbName = 'flickr-iesa';
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
 
-config.flickr = new Flickr({
-    api_key: "10f0db070e0069eeb6fc3b423ab58510",
-    secret: "548208b2e7877737"
-});
+module.exports = {
+    connectDatabase: function() {
+        MongoClient.connect(url, function(err, client) {
+            assert.equal(null, err);
+            console.log("Connected successfully to server");
 
-export default config;
+            const db = client.db(dbName);
+
+            client.close();
+        });
+    }
+};
