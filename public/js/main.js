@@ -1,17 +1,23 @@
-(function ($) {
+(function () {
     $(document).ready(function () {
 
         $('#search').submit(function (e) {
-            let values = $(this).serialize();
+            let tag = $(this).serialize();
+            $(".grid").empty();
             e.preventDefault();
             $.ajax({
-                url: 'localhost:3000/',
+                url: '/',
                 type: 'POST',
-                data: values
-            }).done(function (arg) {
-                alert(arg);
-                console.log('hello')
+                data: tag
+            }).done(function (data) {
+                $('.grid').append(data)
             })
         });
+
+        $('.grid').masonry({
+            itemSelector: '.grid-item',
+            columnWidth: '.grid-sizer',
+            percentPosition: true
+        })
     });
 })();

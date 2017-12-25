@@ -17,9 +17,12 @@ h1{
 }
 
 img {
-    height: 300px;
-    display: block;
-    margin: 0 auto;
+    width: 300px;
+}
+
+.grid-item {
+    width:  50%;
+    float: left;
 }
 
 .input-container {
