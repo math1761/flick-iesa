@@ -17,12 +17,29 @@ h1{
 }
 
 img {
-    width: 300px;
+    width: 100%;
+}
+
+.img_error {
+    width: 25%;
+    display: block;
+    margin: 0 auto;
+}
+
+.grid-item, .grid-sizer {
+    width:  25%;
 }
 
 .grid-item {
-    width:  50%;
     float: left;
+    height: 220px;
+    border-radius: 5px;
+}
+
+.grid:after {
+    content: '';
+    display: block;
+    clear: both;
 }
 
 .input-container {
